@@ -1,8 +1,8 @@
 package thomas.extendclass.core;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 import thomas.extendclass.model.NameEntity;
 
@@ -14,10 +14,12 @@ public class NameDepot {
 
 	public NameDepot(List<NameEntity> nameEntityList) {
 		this.nameEntityList = nameEntityList;
-		this.symbolSet = new HashSet<NameTerminalSymbol>();
+		this.symbolSet = new TreeSet<NameTerminalSymbol>();
 		for (NameEntity nameEntity : this.nameEntityList) {
 			this.symbolSet.add(new NameTerminalSymbol(nameEntity.getName()));
 		}
+		System.out.println("Size of entity: " + this.nameEntityList.size());
+		System.out.println("Size of symbol: " + this.symbolSet.size());
 	}
 
 	public List<NameEntity> getNameEntityList() {
