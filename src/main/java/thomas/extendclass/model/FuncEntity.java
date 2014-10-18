@@ -1,21 +1,16 @@
 package thomas.extendclass.model;
 
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
-
-@Document(collection = "function")
+@CollectionName(name = "function")
 public class FuncEntity extends NameEntity {
-	@Field("id")
+
 	private long funcId;
-	@Field("class")
+
 	private String clazz;
 	private String module;
 	private String type;
 	private String src_file;
 	private String description_url;
 	private String description;
-
-	
 
 	public String getClazz() {
 		return clazz;

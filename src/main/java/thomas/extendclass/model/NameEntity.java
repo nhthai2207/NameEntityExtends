@@ -1,13 +1,15 @@
 package thomas.extendclass.model;
 
-import org.springframework.data.annotation.Id;
+import org.bson.types.ObjectId;
+
 
 public class NameEntity {
-
-	@Id	
-	private String _id;
+	
+	private ObjectId _id;
 	private String name;	
 
+	
+	
 	public String getName() {
 		return name;
 	}
@@ -16,12 +18,14 @@ public class NameEntity {
 		this.name = name;
 	}
 
-	public String get_id() {
+	public ObjectId get_id() {
 		return _id;
 	}
 
-	public void set_id(String _id) {
+	public void set_id(ObjectId _id) {
 		this._id = _id;
 	}
+
+	
 
 }

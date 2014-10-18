@@ -1,15 +1,12 @@
 package thomas.extendclass.model;
 
-import org.springframework.data.mongodb.core.mapping.Document;
-
-@Document(collection = "argument")
+@CollectionName(name = "argument")
 public class ArgEntity extends NameEntity {
 	private String optional;
 	private String description;
 	private String function_id;
 	private String optional_to_argument_id;
 
-	
 	public String getDescription() {
 		return description;
 	}
