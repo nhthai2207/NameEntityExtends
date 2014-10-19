@@ -1,10 +1,12 @@
 package thomas.extendclass.model;
 
+import com.google.gson.annotations.SerializedName;
+
 @CollectionName(name = "function")
 public class FuncEntity extends NameEntity {
 
 	private long funcId;
-
+	@SerializedName("class")
 	private String clazz;
 	private String module;
 	private String type;

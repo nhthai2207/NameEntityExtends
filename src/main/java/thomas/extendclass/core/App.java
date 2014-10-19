@@ -21,14 +21,19 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
-import com.mongodb.Mongo;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
 
 public class App {
 	private DB mongodb;
 
 	public App() {
-		try {
-			Mongo mongo = new Mongo("127.0.0.1", 27017);
+		try {/*
+			 * Mongo mongo = new Mongo("127.0.0.1", 27017); mongodb =
+			 * mongo.getDB("thomas");
+			 */
+			MongoClientURI uri = new MongoClientURI("mongodb://localhost");			
+			MongoClient mongo = new MongoClient(uri);
 			mongodb = mongo.getDB("thomas");
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
@@ -41,10 +46,13 @@ public class App {
 		App mc = new App();
 		List<FuncEntity> funcList = mc.getList(FuncEntity.class);
 		List<ArgEntity> argList = mc.getList(ArgEntity.class);
+		System.out.println("Fucntion size get from mongo : " + funcList.size());
+		System.out.println("Argument size get from mongo : " + argList.size());
 		List<NameEntity> nameEntityList = new ArrayList<NameEntity>();
 		nameEntityList.addAll(funcList);
 		nameEntityList.addAll(argList);
 		NameDepot depot = new NameDepot(nameEntityList);
+		depot.output();
 	}
 
 	private <T> List<T> getList(Class<T> clazz) {
@@ -55,7 +63,7 @@ public class App {
 			DBCursor cursor = collection.find();
 			Gson gson = new GsonBuilder().registerTypeAdapter(ObjectId.class, new ObjectIdTypeAdapter()).create();
 			while (cursor.hasNext()) {
-				BasicDBObject obj = (BasicDBObject) cursor.next();				
+				BasicDBObject obj = (BasicDBObject) cursor.next();
 				T fromJson = gson.fromJson(obj.toString(), clazz);
 				funcList.add(fromJson);
 			}
