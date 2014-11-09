@@ -1,6 +1,13 @@
 package thomas.extendclass.model;
 
+import java.util.List;
+
 import org.bson.types.ObjectId;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
 
 
 public class NameEntity {
@@ -26,6 +33,11 @@ public class NameEntity {
 		this._id = _id;
 	}
 
-	
+	public <T> T convertToChildClass(Class<T> clazz){
+		Gson gson = new GsonBuilder().registerTypeAdapter(ObjectId.class, new ObjectIdTypeAdapter()).create();
+		String json = gson.toJson(this);
+		T tmp = gson.fromJson(json, clazz);		
+		return tmp;
+	}
 
 }

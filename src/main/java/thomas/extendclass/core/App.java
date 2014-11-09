@@ -1,6 +1,5 @@
 package thomas.extendclass.core;
 
-import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,12 +10,10 @@ import thomas.extendclass.model.ArgEntity;
 import thomas.extendclass.model.CollectionName;
 import thomas.extendclass.model.FuncEntity;
 import thomas.extendclass.model.NameEntity;
+import thomas.extendclass.model.ObjectIdTypeAdapter;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.TypeAdapter;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -32,7 +29,7 @@ public class App {
 			 * Mongo mongo = new Mongo("127.0.0.1", 27017); mongodb =
 			 * mongo.getDB("thomas");
 			 */
-			MongoClientURI uri = new MongoClientURI("mongodb://localhost");			
+			MongoClientURI uri = new MongoClientURI("mongodb://localhost");
 			MongoClient mongo = new MongoClient(uri);
 			mongodb = mongo.getDB("thomas");
 		} catch (UnknownHostException e) {
@@ -53,6 +50,7 @@ public class App {
 		nameEntityList.addAll(argList);
 		NameDepot depot = new NameDepot(nameEntityList);
 		depot.output();
+		depot.saveCategoriesToMongo(mc.mongodb);
 	}
 
 	private <T> List<T> getList(Class<T> clazz) {
@@ -86,25 +84,4 @@ public class App {
 	 * 
 	 * }
 	 */
-}
-
-class ObjectIdTypeAdapter extends TypeAdapter<ObjectId> {
-	@Override
-	public void write(final JsonWriter out, final ObjectId value) throws IOException {
-		out.beginObject().name("$oid").value(value.toString()).endObject();
-	}
-
-	@Override
-	public ObjectId read(final JsonReader in) throws IOException {
-		in.beginObject();
-		String key = in.nextName();
-		String value = in.nextString();
-		// assert "$oid".equals(in.nextName());
-		// String objectId = in.nextString();
-		in.endObject();
-		if ("$oid".equals(key)) {
-			return new ObjectId(value);
-		}
-		return null;
-	}
 }
